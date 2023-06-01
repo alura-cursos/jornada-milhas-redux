@@ -5,7 +5,13 @@ const usuarioSlice = createSlice({
     usuarioLogado: {},
   },
   name: 'usuario',
-  reducers: {}
+  reducers: {
+    logar: (state, action) => {
+      state.usuarioLogado = action.payload;
+    }
+  }
 });
+
+export const { logar } = usuarioSlice.actions;
 
 export default usuarioSlice.reducer;
