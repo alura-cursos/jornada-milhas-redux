@@ -25,12 +25,16 @@ export default function Login({ navigation, setUsuarioLogado }: LoginProps) {
   const handleLogin = () => {
     if (!emailOuCpf) return criarMensagem.erro('Preencha um Email ou CPF');
     if (!senha) return criarMensagem.erro('Preencha sua senha');
-    const usuarioEncontrado = logarService(emailOuCpf, senha);
-    dispatch(logar(usuarioEncontrado));
-    if (!usuarioEncontrado) return criarMensagem.erro('Email/CPF ou senha incorretos');
-    setUsuarioLogado(usuarioEncontrado);
-    criarMensagem.sucesso('Login efetuado com sucesso!');
-    navigation.navigate('Home');
+
+    try {
+      dispatch(logar({ emailOuCpf, senha }));
+      criarMensagem.sucesso('Login efetuado com sucesso!');
+      navigation.navigate('Home');
+    } catch (erro) {
+      if (erro instanceof Error) {
+        criarMensagem.erro(erro.message);
+      }
+    }
   }
 
   return (
