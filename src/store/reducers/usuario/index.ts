@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { logar as logarService } from "src/services/usuarios";
+import { Usuario } from 'src/types/usuario';
+
+interface InitialState {
+  usuarioLogado: Usuario | undefined
+}
+
+const initialState: InitialState = { usuarioLogado: undefined }
 
 const usuarioSlice = createSlice({
-  initialState: {
-    usuarioLogado: {},
-  },
+  initialState,
   name: "usuario",
   reducers: {
     logar: (state, action) => {
