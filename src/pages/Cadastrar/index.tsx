@@ -12,8 +12,10 @@ import useSnackbar from 'src/contexts/Snackbar';
 
 import styles from './styles';
 import GenderPicker from 'src/components/GenderPicker';
+import { cadastrar } from 'src/store/reducers/usuario';
+import { useDispatch } from 'react-redux';
 
-export default function Cadastrar({ setUsuarioLogado, navigation }: CadastrarProps) {
+export default function Cadastrar({ navigation }: CadastrarProps) {
   const [nome, setNome] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [genero, setGenero] = useState<Genero | undefined>();
@@ -27,6 +29,7 @@ export default function Cadastrar({ setUsuarioLogado, navigation }: CadastrarPro
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [leu, setLeu] = useState(false);
   const { criarMensagem } = useSnackbar();
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (!leu) return criarMensagem.erro('Você deve concordar com os termos de uso');
@@ -44,8 +47,7 @@ export default function Cadastrar({ setUsuarioLogado, navigation }: CadastrarPro
       senha
     }
 
-    const usuarioCadastrado = cadastrarUsuario(novoUsuario);
-    setUsuarioLogado(usuarioCadastrado);
+    dispatch(cadastrar(novoUsuario));
     criarMensagem.sucesso('Cadastro efetuado com sucesso!');
     navigation.navigate('Home');
   }

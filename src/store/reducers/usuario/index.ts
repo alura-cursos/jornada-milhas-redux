@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { logar as logarService } from "src/services/usuarios";
 import { Usuario } from 'src/types/usuario';
+import uuid from "react-native-uuid";
+import server from 'assets/server';
 
 interface LoginPayload {
   emailOuCpf: Usuario['cpf'] | Usuario['email'],
@@ -8,10 +10,14 @@ interface LoginPayload {
 }
 
 interface InitialState {
-  usuarioLogado: Usuario | undefined
+  usuarioLogado: Usuario | undefined,
+  usuarios: Usuario[],
 }
 
-const initialState: InitialState = { usuarioLogado: undefined }
+const initialState: InitialState = {
+  usuarioLogado: undefined,
+  usuarios: server.usuarios
+}
 
 const usuarioSlice = createSlice({
   initialState,
@@ -27,10 +33,16 @@ const usuarioSlice = createSlice({
     },
     deslogar: (state) => {
       state.usuarioLogado = undefined;
+    },
+    cadastrar: (state, action: PayloadAction<Omit<Usuario, 'id'>>) => {
+      const id = uuid.v4();
+      const novoUsuario = { ...action.payload, id };
+      state.usuarios.push(novoUsuario);
+      state.usuarioLogado = novoUsuario;
     }
   },
 });
 
-export const { logar, deslogar } = usuarioSlice.actions;
+export const { logar, deslogar, cadastrar } = usuarioSlice.actions;
 
 export default usuarioSlice.reducer;
