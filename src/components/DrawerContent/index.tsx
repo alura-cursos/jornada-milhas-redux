@@ -8,9 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { deslogar } from 'src/store/reducers/usuario';
 
-interface DrawerContentProps extends DrawerContentComponentProps {}
-
-export default function DrawerContent({ navigation }: DrawerContentProps) {
+export default function DrawerContent({ navigation }: DrawerContentComponentProps) {
   const dispatch = useDispatch();
   const usuarioLogado = useSelector((state: RootState) => state.usuario.usuarioLogado);
 
